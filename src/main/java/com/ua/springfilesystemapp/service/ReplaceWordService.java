@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,11 +17,17 @@ public class ReplaceWordService {
     @Autowired
     ReadFilesPathService readFilesPathService;
 
-    public void updateAllFiles(String startFilePath, String oldWord, String newWord) throws IOException {
+    public void updateAllFiles(String startFilePath, List<String> oldWords, String newWord) throws IOException {
         List<String> allFiles = readFilesPathService.scanAllSubfolders(startFilePath);
-        for(int i =0; i<allFiles.size();i++) {
-            makeReplacement(allFiles.get(i), oldWord, newWord);
-            renameIfNeeded(allFiles.get(i), oldWord, newWord);
+        for(int i = 0; i<allFiles.size();i++) {
+            for(int j = 0; j<oldWords.size();j++) {
+                makeReplacement(allFiles.get(i), oldWords.get(j), newWord);
+            }
+        }
+        for(int i = 0; i<allFiles.size();i++) {
+            for(int j = 0; j<oldWords.size();j++) {
+                renameIfNeeded(allFiles.get(i), oldWords.get(j), newWord);
+            }
         }
     }
 
@@ -39,9 +44,7 @@ public class ReplaceWordService {
        File oldFile = new File(fileName);
        String newFileName = fileName.replaceAll(oldWord,newWord);
        File newFile = new File(newFileName);
-        if (oldFile.renameTo(newFile)){
-           System.out.println("File Renamed successfully");
-       }
+       oldFile.renameTo(newFile);
     }
 
 

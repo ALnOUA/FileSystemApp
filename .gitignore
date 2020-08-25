@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### STS ###
+# STS
 .apt_generated
 .classpath
 .factorypath
@@ -13,8 +13,8 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
+# Intellij
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Maven
+log/
+target/
